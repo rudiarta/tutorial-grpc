@@ -1,6 +1,7 @@
 package client
 
 import (
+	"code/common"
 	"code/model"
 	"context"
 	"fmt"
@@ -10,7 +11,7 @@ import (
 )
 
 func CreateAccount() {
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	conn, err := grpc.Dial(fmt.Sprintf(":%s", common.PORT), grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("failed to Dial: %v", err)
 	}
@@ -29,7 +30,7 @@ func CreateAccount() {
 }
 
 func CreateAccountBulk() {
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	conn, err := grpc.Dial(fmt.Sprintf(":%s", common.PORT), grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("failed to Dial: %v", err)
 	}

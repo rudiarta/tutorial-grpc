@@ -1,6 +1,7 @@
 package main
 
 import (
+	"code/common"
 	"code/model"
 	c "code/src/client"
 	ss "code/src/server"
@@ -18,7 +19,7 @@ func main() {
 	flag.Parse()
 
 	if *cmd == `server` {
-		ls, err := net.Listen("tcp", ":9000")
+		ls, err := net.Listen("tcp", fmt.Sprintf(":%s", common.PORT))
 		if err != nil {
 			log.Fatalf("failed to listen: %v", err)
 		}
