@@ -15,6 +15,7 @@ func CreateAccount() {
 	if err != nil {
 		log.Fatalf("failed to Dial: %v", err)
 	}
+	defer conn.Close()
 
 	client := model.NewAccountManagementClient(conn)
 	res, err := client.Create(context.Background(), &model.Account{
@@ -34,6 +35,7 @@ func CreateAccountBulk() {
 	if err != nil {
 		log.Fatalf("failed to Dial: %v", err)
 	}
+	defer conn.Close()
 
 	client := model.NewAccountManagementClient(conn)
 	stream, err := client.BulkCreate(context.Background())
