@@ -11,6 +11,7 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 func main() {
@@ -19,13 +20,23 @@ func main() {
 	flag.Parse()
 
 	if *cmd == `server` {
-		ls, err := net.Listen("tcp", fmt.Sprintf(":%s", common.PORT))
+		ls, err := net.Listen("tcp", fmt.Sprintf("localhost:%s", common.PORT))
 		if err != nil {
 			log.Fatalf("failed to listen: %v", err)
 		}
-		grpcServer := grpc.NewServer()
+		creds, err := credentials.NewClientTLSFromFile("./cert/server.crt", "./cert/server.key")
+		if err != nil {
+			log.Fatalf("failed to listen: %v", err)
+		}
+
+		opts := []grpc.ServerOption{grpc.Creds(creds)}
+
+		grpcServer := grpc.NewServer(opts...)
 		model.RegisterAccountManagementServer(grpcServer, ss.NewAccountServer())
-		grpcServer.Serve(ls)
+		err = grpcServer.Serve(ls)
+		if err != nil {
+			log.Fatalf("failed to listen: %v", err)
+		}
 		return
 	}
 

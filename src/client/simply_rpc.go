@@ -8,10 +8,15 @@ import (
 	"log"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 func CreateAccount() {
-	conn, err := grpc.Dial(fmt.Sprintf(":%s", common.PORT), grpc.WithInsecure())
+	creds, err := credentials.NewClientTLSFromFile("./cert/server.crt", "./cert/server.key")
+	if err != nil {
+		log.Fatalf("failed to Dial: %v", err)
+	}
+	conn, err := grpc.Dial(fmt.Sprintf("localhost:%s", common.PORT), grpc.WithTransportCredentials(creds))
 	if err != nil {
 		log.Fatalf("failed to Dial: %v", err)
 	}
@@ -31,7 +36,11 @@ func CreateAccount() {
 }
 
 func CreateAccountBulk() {
-	conn, err := grpc.Dial(fmt.Sprintf(":%s", common.PORT), grpc.WithInsecure())
+	creds, err := credentials.NewClientTLSFromFile("./cert/server.crt", "./cert/server.key")
+	if err != nil {
+		log.Fatalf("failed to Dial: %v", err)
+	}
+	conn, err := grpc.Dial(fmt.Sprintf("localhost:%s", common.PORT), grpc.WithTransportCredentials(creds))
 	if err != nil {
 		log.Fatalf("failed to Dial: %v", err)
 	}
