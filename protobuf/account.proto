@@ -1,0 +1,23 @@
+syntax = "proto3";
+option go_package = "./model/";
+package model;
+
+message Account {
+  int64 id = 1;
+  string username = 2;
+  string password = 3;
+}
+
+message CreateAccountResponse {
+  string message = 1;
+}
+
+message CreateAccountBulkResponse {
+  int64 countAccount = 1;
+  string message = 2;
+}
+
+service AccountManagement {
+  rpc Create(Account) returns (CreateAccountResponse);
+  rpc BulkCreate(stream Account) returns (CreateAccountBulkResponse);
+}
