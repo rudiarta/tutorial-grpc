@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = "./model/";
+option go_package = "model/";
 package model;
 
 message Account {
